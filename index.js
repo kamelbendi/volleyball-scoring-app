@@ -1,3 +1,5 @@
+/* import {Button} from "@material-ui/core"; */
+
 function App(){
 
      const [displayTime, setDisplayTime] = React.useState(0);
@@ -103,9 +105,11 @@ function App(){
          <div className="center-align">
             <h3>Volleyball scoring Application</h3>
             <div className="dual-container">
+            <button type="button" class="btn btn-primary">Start</button>
+            <button type="button" class="btn btn-danger">End</button>
+                </div>
             {/* <Length title={"Break Length"} changeTime={changeTime} type={"break"} time={breakTime} formatTime={formatTime}/>
             <Length title={"Session Length"} changeTime={changeTime} type={"session"} time={sessionTime} formatTime={formatTime}/> */}
-            </div>
             {/* <h3>{onBreak ? "Break" : "Session"}</h3> */}
             {/* <h1>{formatTime(displayTime)}</h1>
             <button className="btn-large deep-purple lighten-2"  onClick={controlTime} >
