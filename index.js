@@ -7,7 +7,10 @@ function App(){
      const [teamPlayer2, setTeamPlayer2] = React.useState(["",""]);
      const [setsWonTeam1, setSetsWonTeam1] = React.useState(0);
      const [setsWonTeam2, setSetsWonTeam2] = React.useState(0);
+     const [scoreTeam1, setScoreTeam1] = React.useState(0);
+     const [scoreTeam2, setScoreTeam2] = React.useState(0);
      const [setNumber, setSetNsetNumber] = React.useState([1,"1st"]);
+     const [timerOn, setTimerOn] = React.useState(false);
     
     
 
@@ -26,6 +29,12 @@ function App(){
         let newArr = [...teamPlayer2];
         newArr[index] = e.target.value;
         setTeamPlayer2(newArr);
+    }
+    const handleStartSet = () => {
+        setTimerOn(ture);
+    }
+    const handleEndSet = () => {
+        setTimerOn(false);
     }
     return (
          <div className="center-align">
@@ -46,20 +55,22 @@ function App(){
             </div>
             <div className="container">
                 <div className="column team1">
-                    
-                    <p>Color : </p>
-                    <p>the team players are : {teamPlayer1[0].toUpperCase()} and {teamPlayer1[1].toUpperCase()}</p>
+                    <div className="score">
+                        <p>Color : </p>
+                        <p>{teamPlayer1[0].toUpperCase()} / {teamPlayer1[1].toUpperCase()}</p>
+                    </div>
                 </div>
                 <div className="column middle">
-                    <p>{setNumber[1]} Set</p>
-                    <button>Start</button>
-                    <button>End</button>
+                    <h2>{formatTime(displayTime)}</h2>
+                        <p>{setNumber[1]} Set</p>
+                        <button id="start" disabled={timerOn} onClick={handleStartSet}><i className="material-icons">alarm</i>Start</button>
+                        <button id="end" disabled={!timerOn} onClick={handleEndSet}><i className="material-icons">pan_tool</i> End</button>
                 </div>
                 <div className="column team2">
-                    
-                    <p>Color : </p>
-                    <p>the team players are : {teamPlayer2[0].toUpperCase()} and {teamPlayer2[1].toUpperCase()}</p>
-                
+                    <div className="score">
+                        <p>Color : </p>
+                        <p>{teamPlayer2[0].toUpperCase()} / {teamPlayer2[1].toUpperCase()}</p>
+                    </div>
                 </div>
             </div>
             {/* <Length title={"Break Length"} changeTime={changeTime} type={"break"} time={breakTime} formatTime={formatTime}/>
