@@ -11,6 +11,8 @@ function App(){
      const [scoreTeam2, setScoreTeam2] = React.useState(0);
      const [setNumber, setSetNumber] = React.useState(1);
      const [timerOn, setTimerOn] = React.useState(false);
+     /* const [events, setEvents] = React.useState(); */
+     let events = [];
      const setText = ["1st", "2nd", "3rd"];
     
      React.useEffect(() => {
@@ -65,31 +67,10 @@ function App(){
         }
     
     
-    /* const controlTime = () => {
-        let second = 1000;
-        let date = new Date().getTime();
-        
-        if(!timerOn){
-            let interval = setInterval( () => {
-                 date = new Date().getTime();
-                 if(date > nextDate){
-                    setDisplayTime(prev => {
-                        return prev + 1;})
-                    nextDate += second;
-                 };
-            }, 30)
-            localStorage.clear();
-            localStorage.setItem('interval-id', interval);
-        }
-        if(timerOn){
-           clearInterval(localStorage.getItem('interval-id')); 
-        }
-
-        setTimerOn(!timerOn);
-
-    }; */
     const handlePointStarted = index => {
-        
+        if(timerOn){
+            events.push({period: setNumber, text: 'Game started', time: displayTime, Players: ''});
+        }
     }
     const handlePointScored = index => {
         if(timerOn){
@@ -97,7 +78,13 @@ function App(){
         }
     }
     const handleTimeout = index => {
-        
+        index ?
+        events.push({period: setNumber, text: 'Technical Timeout', time: displayTime, Players: teamPlayer2[0]+'/'+teamPlayer2[1]})
+        :
+        events.push({period: setNumber, text: 'Technical Timeout', time: displayTime, Players: teamPlayer1[0]+'/'+teamPlayer1[1]})
+        console.log(events);
+        console.log(displayTime);
+
     }
     return (
          <div className="center-align">
@@ -126,7 +113,7 @@ function App(){
                         <p>{teamPlayer1[0].toUpperCase()} / {teamPlayer1[1].toUpperCase()}</p>
                         <h2 id="score" style={{textAlign: 'right', paddingRight: '10px'}}>{scoreTeam1} <span >{setsWonTeam1}</span></h2>
                     </div>
-                    <button className="buttons" onClick={()=>handlePointStarted(0)}><i className="material-icons">alarm_on</i> Point Started</button>
+                    <button className="buttons" onClick={handlePointStarted}><i className="material-icons">alarm_on</i> Point Started</button>
                     <button className="buttons" onClick={()=>handlePointScored(0)}><i className="material-icons">plus_one</i> Point Scored</button>
                     <button className="buttons" onClick={()=>handleTimeout(0)}><i className="material-icons">av_timer</i> Timeout</button>
                 </div>
@@ -143,27 +130,37 @@ function App(){
                         <p style={{textAlign: 'right', paddingRight: '10px'}}>{teamPlayer2[0].toUpperCase()} / {teamPlayer2[1].toUpperCase()}</p>
                         <h2 id="score"><span >{setsWonTeam2}</span> {scoreTeam2} </h2>
                     </div>
-                    <button className="buttons" onClick={()=>handlePointStarted(1)}><i className="material-icons">alarm_on</i> Point Started</button>
+                    <button className="buttons" onClick={handlePointStarted}><i className="material-icons">alarm_on</i> Point Started</button>
                     <button className="buttons" onClick={()=>handlePointScored(1)}><i className="material-icons">plus_one</i> Point Scored</button>
                     <button className="buttons" onClick={()=>handleTimeout(1)}><i className="material-icons">av_timer</i> Timeout</button>
 
                 </div>
             </div>
-            {/* <Length title={"Break Length"} changeTime={changeTime} type={"break"} time={breakTime} formatTime={formatTime}/>
-            <Length title={"Session Length"} changeTime={changeTime} type={"session"} time={sessionTime} formatTime={formatTime}/> */}
-            {/* <h3>{onBreak ? "Break" : "Session"}</h3> */}
-            {/* <h1>{formatTime(displayTime)}</h1>
-            <button className="btn-large deep-purple lighten-2"  onClick={controlTime} >
-                { timerOn ? 
-                (<i className="material-icons">pause_circle_filled</i>)
-                :
-                (<i className="material-icons">play_circle_filled</i>)}
-            </button>
-            <button className="btn-large deep-purple lighten-2" onClick={resetTime}>
-                <i className="material-icons">autorenew</i>
-            </button> */}
+            <div className="event-scroller">
+                <Cards events={events} formatTime={formatTime}/>
+            </div>
          </div>
     );
 }
 
+function Cards ({events, formatTime}) {
+    
+    
+    {events.map(event =>  
+    <div class="row">
+        <div class="col s12 m6">
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+            <span class="card-title">{event.text}</span>
+            <span style={{alignText : 'right'}}>{formatTime(event.time)}</span>
+            <p>{event.period}</p>
+            </div>
+            <div class="card-action">
+            <p>{event.players}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    )}
+}
 ReactDOM.render(<App/>, document.getElementById('root'));
