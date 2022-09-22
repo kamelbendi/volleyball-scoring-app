@@ -15,14 +15,15 @@ body{
 } 
 .column {
     flex: 33.33%;
-    height: 200px;
+    
     padding: 10px;
-    margin: 5px;
+    
     text-align: center;
   }
   .container {
     display: flex;
-    padding-top: 50px;
+    padding-top: 80px;
+    width: 100%;
  }	
  .center-align{
     justify-items: center;
@@ -32,4 +33,24 @@ body{
  .middle{
     border-style: groove;
     border-width: 1px;
+    height: 100%;
+    padding-bottom: 50px;
+ }
+
+ .score{
+    border-style: groove;
+    border-width: 1px;
+    text-align: left;
+    padding-left : 10px
+ }
+ span {
+    font-size: 20px;
+ }
+
+ .buttons{
+    height: 50px;
+    background-color: #333;
+    border: 2px solid #e7e7e7;
+    margin-right: 3%;;
+    margin-top: 3%;
  }
