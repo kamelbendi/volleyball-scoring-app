@@ -2,18 +2,34 @@ body{
     color: white;
     background-color: #333;
 }
-.time-sets{
+/* .time-sets{
     display: grid;
     grid-template-columns: 50px 200px 50px;
     justify-items: center;
     align-items: center;
 }
-
+*/
 .dual-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 20%;
-    margin: auto;
+    display: flex;
+    
+} 
+.column {
+    flex: 33.33%;
+    height: 200px;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+  }
+  .container {
+    display: flex;
+    padding-top: 50px;
+ }	
+ .center-align{
     justify-items: center;
     align-items: center;
-}
+
+ }
+ .middle{
+    border-style: groove;
+    border-width: 1px;
+ }
