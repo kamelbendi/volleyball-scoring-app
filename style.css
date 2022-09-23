@@ -54,3 +54,12 @@ body{
     margin-right: 3%;;
     margin-top: 3%;
  }
+
+  .event-scroller{
+    display: grid;
+    grid-auto-flow: column;
+    border: 2px solid #e7e7e7;
+    grid-auto-columns: 25%;
+    padding-top:"30px";
+    
+ } 

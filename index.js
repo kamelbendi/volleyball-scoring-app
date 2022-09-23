@@ -136,31 +136,27 @@ function App(){
 
                 </div>
             </div>
-            <div className="event-scroller">
                 <Cards events={events} formatTime={formatTime}/>
-            </div>
          </div>
     );
 }
 
 function Cards ({events, formatTime}) {
+return(
     
-    
-    {events.map(event =>  
-    <div class="row">
-        <div class="col s12 m6">
-        <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-            <span class="card-title">{event.text}</span>
-            <span style={{alignText : 'right'}}>{formatTime(event.time)}</span>
-            <p>{event.period}</p>
-            </div>
-            <div class="card-action">
-            <p>{event.players}</p>
-            </div>
-        </div>
-        </div>
-    </div>
-    )}
+    <>
+         
+             {events.map(event =>  { return (
+            <div>
+                
+                <p>heyy</p>
+            </div>);
+            })} 
+            
+        
+         
+        <h1>heyy</h1>
+    </>
+);
 }
 ReactDOM.render(<App/>, document.getElementById('root'));
