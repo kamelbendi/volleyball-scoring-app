@@ -11,9 +11,8 @@ function App(){
      const [scoreTeam2, setScoreTeam2] = React.useState(0);
      const [setNumber, setSetNumber] = React.useState(1);
      const [timerOn, setTimerOn] = React.useState(false);
-     const [events, setEvents] = React.useState(['']);
+     const [events, setEvents] = React.useState([]);
      
-     let test= [1, 2, 3, 3 ,4];
      const setText = ["1st", "2nd", "3rd"];
     
      React.useEffect(() => {
@@ -137,27 +136,40 @@ function App(){
 
                 </div>
             </div>
-                <Cards events={events} formatTime={formatTime} test={test}/>
+                <Cards events={events} formatTime={formatTime} />
          </div>
     );
 }
 
-function Cards ({events, formatTime , test}) {
+function Cards ({events, formatTime}) {
 return(
     
-    <div id={formatTime}>
+    <div >
          
-             {test.map(e =>  { return (
-                <div >
+             {events.map((e,i) =>  { return (
+                <div key={i}>
+                                        
+                    <div className="row">
+                        <div className="col s12 m6">
+                            <div className="card blue-grey darken-1">
+                                <div className="card-content white-text">
+                                <span className="card-title">Card Title</span>
+                                <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                                </div>
+                                <div className="card-action">
+                                    <p>{e.Players}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <p >heyydd</p>
-                    {console.log(events)}
                 </div>);
             })} 
             
         
          
-        <h1>heyy</h1>
+        
     </div>
 );
 }
