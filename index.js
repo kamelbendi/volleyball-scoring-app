@@ -11,8 +11,9 @@ function App(){
      const [scoreTeam2, setScoreTeam2] = React.useState(0);
      const [setNumber, setSetNumber] = React.useState(1);
      const [timerOn, setTimerOn] = React.useState(false);
-     /* const [events, setEvents] = React.useState(); */
-     let events = [];
+     const [events, setEvents] = React.useState(['']);
+     
+     let test= [1, 2, 3, 3 ,4];
      const setText = ["1st", "2nd", "3rd"];
     
      React.useEffect(() => {
@@ -69,7 +70,7 @@ function App(){
     
     const handlePointStarted = index => {
         if(timerOn){
-            events.push({period: setNumber, text: 'Game started', time: displayTime, Players: ''});
+            setEvents({period: setNumber, text: 'Game started', time: displayTime, Players: ''});
         }
     }
     const handlePointScored = index => {
@@ -79,9 +80,9 @@ function App(){
     }
     const handleTimeout = index => {
         index ?
-        events.push({period: setNumber, text: 'Technical Timeout', time: displayTime, Players: teamPlayer2[0]+'/'+teamPlayer2[1]})
+        setEvents([...events, {period: setNumber, text: 'Technical Timeout', time: displayTime, Players: teamPlayer2[0]+'/'+teamPlayer2[1]}])
         :
-        events.push({period: setNumber, text: 'Technical Timeout', time: displayTime, Players: teamPlayer1[0]+'/'+teamPlayer1[1]})
+        setEvents([...events, {period: setNumber, text: 'Technical Timeout', time: displayTime, Players: teamPlayer1[0]+'/'+teamPlayer1[1]}])
         console.log(events);
         console.log(displayTime);
 
@@ -136,27 +137,28 @@ function App(){
 
                 </div>
             </div>
-                <Cards events={events} formatTime={formatTime}/>
+                <Cards events={events} formatTime={formatTime} test={test}/>
          </div>
     );
 }
 
-function Cards ({events, formatTime}) {
+function Cards ({events, formatTime , test}) {
 return(
     
-    <>
+    <div id={formatTime}>
          
-             {events.map(event =>  { return (
-            <div>
-                
-                <p>heyy</p>
-            </div>);
+             {test.map(e =>  { return (
+                <div >
+                    
+                    <p >heyydd</p>
+                    {console.log(events)}
+                </div>);
             })} 
             
         
          
         <h1>heyy</h1>
-    </>
+    </div>
 );
 }
 ReactDOM.render(<App/>, document.getElementById('root'));
