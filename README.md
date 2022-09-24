@@ -18,4 +18,4 @@ but a much simpler way to do it was with a function called "scrollIntoView()" as
         
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-this project was made in order to practise cloning a specific design and realize the wanted features.
+this project was made in order to practise cloning a specific design and realize the wanted features. 
