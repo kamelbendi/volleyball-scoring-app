@@ -3,8 +3,8 @@
 function App(){
 
      const [displayTime, setDisplayTime] = React.useState(0);
-     const [teamPlayer1, setTeamPlayer1] = React.useState(["Player 1","Player 2"]);
-     const [teamPlayer2, setTeamPlayer2] = React.useState(["Player 1","Player 2"]);
+     const [teamPlayer1, setTeamPlayer1] = React.useState(["Player 1 (team 1)","Player 2 (team1)"]);
+     const [teamPlayer2, setTeamPlayer2] = React.useState(["Player 1 (team 2)","Player 2 (team 2)"]);
      const [setsWonTeam1, setSetsWonTeam1] = React.useState(0);
      const [setsWonTeam2, setSetsWonTeam2] = React.useState(0);
      const [scoreTeam1, setScoreTeam1] = React.useState(0);
@@ -14,7 +14,18 @@ function App(){
      const [events, setEvents] = React.useState([]);
      
      const setText = ["1st", "2nd", "3rd"];
-    
+
+     React.useEffect(()=>{
+        if(events.length>2){
+            /* $('.event-scroller').animate({
+            scrollLeft: $('#'+ (events.length-1)).offset().left - $('.event-scroller').offset().left + $('.event-scroller').scrollRight()
+           });
+           console.log('#'+ (events.length-1));  */
+           const element = document.getElementById((events.length-1));
+           element.scrollIntoView({block: "end"});
+        }
+     }, [events.length])
+
      React.useEffect(() => {
         let interval;
         if (timerOn) {
@@ -48,6 +59,7 @@ function App(){
         /* clearInterval(interval); */
         setDisplayTime(0);
         setTimerOn(!timerOn);
+        setEvents([{period: setNumber, text: 'Game started', time: displayTime, Players: '--'}])
 
     }
     const handleEndSet = () => {
@@ -57,31 +69,44 @@ function App(){
                 setSetNumber(setNumber+1);
                 setSetsWonTeam1(setsWonTeam1+1);
                 console.log(setsWonTeam1);
+                setEvents([...events, {period: setNumber, text: 'Game Ended', time: displayTime, Players: 'Sports are life'}])
             }
             else if (scoreTeam2>=21 && Math.abs(scoreTeam1-scoreTeam2)>1 && scoreTeam1<scoreTeam2){
                 setTimerOn(!timerOn);
                 setSetNumber(setNumber+1);
                 setSetsWonTeam2(setsWonTeam2+1);
                 console.log(setsWonTeam2);
+                setEvents([...events, {period: setNumber, text: 'Game Ended', time: displayTime, Players: 'Sports are life'}])
+            }
+            else if(scoreTeam2>=15 && setNumber==3 && Math.abs(scoreTeam1-scoreTeam2)>1 && scoreTeam1<scoreTeam2){
+                setTimerOn(!timerOn);
+                setSetNumber(setNumber+1);
             }
         }
     
     
     const handlePointStarted = index => {
         if(timerOn){
-            setEvents({period: setNumber, text: 'Game started', time: displayTime, Players: ''});
+            index ?
+            setEvents([...events, {period: setNumber, text: 'Point started from team 2', time: displayTime, Players: 'Team 2 ' + teamPlayer2[0]+' / '+teamPlayer2[1]}])
+            :
+            setEvents([...events, {period: setNumber, text: 'Point started from team 1', time: displayTime, Players: 'Team 1 ' + teamPlayer1[0]+' / '+teamPlayer1[1]}])
         }
     }
     const handlePointScored = index => {
         if(timerOn){
-            index ? setScoreTeam2(scoreTeam2+1): setScoreTeam1(scoreTeam1+1);
+            index ? 
+            setScoreTeam2(scoreTeam2+1) && setEvents([...events, {period: setNumber, text: 'Team 2 scored', time: displayTime, Players: 'Team 2 ' + teamPlayer2[0]+' / '+teamPlayer2[1]}])
+            : 
+            setScoreTeam1(scoreTeam1+1) 
+            setEvents([...events, {period: setNumber, text: 'Team 1 scored', time: displayTime, Players: 'Team 1 ' + teamPlayer1[0]+' / '+teamPlayer1[1]}])
         }
     }
     const handleTimeout = index => {
         index ?
-        setEvents([...events, {period: setNumber, text: 'Technical Timeout', time: displayTime, Players: teamPlayer2[0]+'/'+teamPlayer2[1]}])
+        setEvents([...events, {period: setNumber, text: 'Technical Timeout', time: displayTime, Players: 'team 2 ' + teamPlayer2[0]+' / '+teamPlayer2[1]}])
         :
-        setEvents([...events, {period: setNumber, text: 'Technical Timeout', time: displayTime, Players: teamPlayer1[0]+'/'+teamPlayer1[1]}])
+        setEvents([...events, {period: setNumber, text: 'Technical Timeout', time: displayTime, Players: 'team1 ' + teamPlayer1[0]+' / '+teamPlayer1[1]}])
         console.log(events);
         console.log(displayTime);
 
@@ -113,7 +138,7 @@ function App(){
                         <p>{teamPlayer1[0].toUpperCase()} / {teamPlayer1[1].toUpperCase()}</p>
                         <h2 id="score" style={{textAlign: 'right', paddingRight: '10px'}}>{scoreTeam1} <span >{setsWonTeam1}</span></h2>
                     </div>
-                    <button className="buttons" onClick={handlePointStarted}><i className="material-icons">alarm_on</i> Point Started</button>
+                    <button className="buttons" onClick={()=>handlePointStarted(0)}><i className="material-icons">alarm_on</i> Point Started</button>
                     <button className="buttons" onClick={()=>handlePointScored(0)}><i className="material-icons">plus_one</i> Point Scored</button>
                     <button className="buttons" onClick={()=>handleTimeout(0)}><i className="material-icons">av_timer</i> Timeout</button>
                 </div>
@@ -130,7 +155,7 @@ function App(){
                         <p style={{textAlign: 'right', paddingRight: '10px'}}>{teamPlayer2[0].toUpperCase()} / {teamPlayer2[1].toUpperCase()}</p>
                         <h2 id="score"><span >{setsWonTeam2}</span> {scoreTeam2} </h2>
                     </div>
-                    <button className="buttons" onClick={handlePointStarted}><i className="material-icons">alarm_on</i> Point Started</button>
+                    <button className="buttons" onClick={()=>handlePointStarted(1)}><i className="material-icons">alarm_on</i> Point Started</button>
                     <button className="buttons" onClick={()=>handlePointScored(1)}><i className="material-icons">plus_one</i> Point Scored</button>
                     <button className="buttons" onClick={()=>handleTimeout(1)}><i className="material-icons">av_timer</i> Timeout</button>
 
@@ -144,18 +169,18 @@ function App(){
 function Cards ({events, formatTime}) {
 return(
     
-    <div >
+    <div className="event-scroller">
          
              {events.map((e,i) =>  { return (
-                <div key={i}>
+                <div key={i} id={i} className="event">
                                         
                     <div className="row">
-                        <div className="col s12 m6">
-                            <div className="card blue-grey darken-1">
+                        <div className="col s12 m14">
+                            <div className="card grey darken-1">
                                 <div className="card-content white-text">
-                                <span className="card-title">Card Title</span>
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                I am convenient because I require little markup to use effectively.</p>
+                                <span /* className="card-title" */>{e.text}</span>
+                                    <div><p>period {e.period}</p></div>
+                                    <p>time {formatTime(e.time)}</p>
                                 </div>
                                 <div className="card-action">
                                     <p>{e.Players}</p>
@@ -163,7 +188,6 @@ return(
                             </div>
                         </div>
                     </div>
-                    
                 </div>);
             })} 
             
