@@ -103,13 +103,14 @@ function App(){
         }
     }
     const handleTimeout = index => {
+        if(timerOn){
         index ?
         setEvents([...events, {period: setNumber, text: 'Technical Timeout', time: displayTime, Players: 'team 2 ' + teamPlayer2[0]+' / '+teamPlayer2[1]}])
         :
         setEvents([...events, {period: setNumber, text: 'Technical Timeout', time: displayTime, Players: 'team1 ' + teamPlayer1[0]+' / '+teamPlayer1[1]}])
         console.log(events);
         console.log(displayTime);
-
+}
     }
     return (
          <div className="center-align">
